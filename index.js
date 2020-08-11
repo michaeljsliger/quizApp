@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 'use strict';
 const STORE = [
   {
@@ -7,7 +8,7 @@ const STORE = [
     answers: [
       ['November 15 2000', false],
       ['November 15, 2001', true],
-      ['November 15, 20002', false],
+      ['November 15, 2002', false],
       ['November 15, 2003', false]
     ]
   },
@@ -47,7 +48,7 @@ const STORE = [
   {
     id: 5,
     // How much is the Halo franchise worth? '$5 billion': true, '$3 billion': false, '$6 billion': false, '$7 Billion': false
-    question: 'Who is the main character?',
+    question: 'How much is the Halo franchise worth?',
     answers: [
       ['$3 Billion', false],
       ['$6 Billion', false],
@@ -58,7 +59,10 @@ const STORE = [
   },
 ]; // all of the questions and page information
 
+// store answers from user
 const answers = [];
+
+// game set initialized with render(createHTML(defineGameState(0)))
 const possibleGamestates = [
   'toStart',
   'playing',
@@ -67,15 +71,18 @@ const possibleGamestates = [
   'end' 
 ];
 
+// track which question is to be displayed
 let i = 0;
 
 
-
+// be able to change state of game w/ buttons
+// determine which html in createhtml switch case to use
 function defineGamestate(index) {
   if (!index) return possibleGamestates[0];
   return possibleGamestates[index];
 }
 
+// find array index of 'true' in store[index].answers[------]
 function findRightAnswer(index) {
   return STORE[index].answers.find(el => el[1] === true)[0];
 }
@@ -115,7 +122,7 @@ function createHTML(index) {
   case 'toStart':
     return `<div class="question-box">
         <h1>Halo Quiz!</h1>
-        <h3></h3>
+        <h3>Andrew Dela Rosa && Michael Sliger</h3>
         </div>
         <div>
         
@@ -147,7 +154,7 @@ function createHTML(index) {
     <div class="counter-box">${answers.filter(el => el === 'true').length}/${STORE.length} correctly answered</div>
 
     <div class="next-button-box">
-    <button id=${(i === STORE.length - 1) ? 'end-game' : 'next-question'}>${(i === STORE.length - 1) ? 'End Game' : 'Next Question'}</button>
+    <button class="css-next-button" id=${(i === STORE.length - 1) ? 'end-game' : 'next-question'}>${(i === STORE.length - 1) ? 'End Game' : 'Next Question'}</button>
     </div>
     </div>`;
 
@@ -155,13 +162,13 @@ function createHTML(index) {
   case 'false':
     return`<div class="question-box">
     <h1>Incorrect!</h1>
-    <h3>The correct answer is [${findRightAnswer(i)}]</h3>
+    <h3>The correct answer is ${findRightAnswer(i)}</h3>
     </div>
     <div>
     <div class="counter-box">${answers.filter(el => el === 'true').length}/${STORE.length} correctly answered</div>
 
     <div class="next-button-box">
-    <button id=${(i === STORE.length - 1) ? 'end-game' : 'next-question'}>${(i === STORE.length - 1) ? 'End Game' : 'Next Question'}</button>
+    <button class="css-next-button" id=${(i === STORE.length - 1) ? 'end-game' : 'next-question'}>${(i === STORE.length - 1) ? 'End Game' : 'Next Question'}</button>
     </div>
     </div>`;
   default: 
@@ -203,7 +210,7 @@ function handleNextRenderFromSubmit(input) {
 
 // function for next question button
 function handleNextButtonClick() {
-  $('main').on('click', '#next-question', function(e) {
+  $('main').on('click', '#next-question', function() {
     i++;
     renderHTML(createHTML(1));
   });
@@ -211,7 +218,7 @@ function handleNextButtonClick() {
 
 // function for starting the quiz
 function handleStartQuizClick() {
-  $('main').on('click', '#start-quiz', function(e){
+  $('main').on('click', '#start-quiz', function(){
     renderHTML(createHTML(1));
   });
 }
@@ -219,11 +226,10 @@ function handleStartQuizClick() {
 
 // reset game function
 // i to 0
-// i counter off
 // gamestate to 'toStart'
 // answers array.length = 0;
 function handleResetButtonClick() {
-  $('main').on('click', '#restart-game', function(e) {
+  $('main').on('click', '#restart-game', function() {
     i = 0;
     // i counter?
     answers.length = 0;
@@ -231,25 +237,25 @@ function handleResetButtonClick() {
   });
 }
 
-// load last page
+// load last page when clicked
 function handleEndGameButton() {
-  $('main').on('click', '#end-game', function(e){
+  $('main').on('click', '#end-game', function(){
     renderHTML(createHTML(4));
   });
 }
 
-
+// render page, will come from createhtml
 function renderHTML(htmlVar) {
   $('main').html(htmlVar);
 }
 
 function main() {
-  renderHTML(createHTML(4)); // create first page
-  handleSubmitClick(); // event listeners
-  handleStartQuizClick();
-  handleNextButtonClick();
-  handleResetButtonClick();
-  handleEndGameButton();
+  renderHTML(createHTML(0)); // create first page
+  handleSubmitClick(); // event listeners 
+  handleStartQuizClick(); // ||
+  handleNextButtonClick(); // ||
+  handleResetButtonClick(); // ||
+  handleEndGameButton(); // ||
 }
 
 main(); // loaded first
