@@ -58,35 +58,36 @@ const STORE = [
   },
 ]; // all of the questions and page information
 
-function findRightAnswer(index) {
-   return STORE[index].answers.find(el => el[1] === true)[0];
-}
-
-
 const answers = [];
 const possibleGamestates = [
-  'toStart',
-  'playing',
-  'true',
-  'false',
+    'toStart',
+    'playing',
+    'true',
+    'false',
   'end' 
 ];
+
+let i = 0;
+
+
 
 function defineGamestate(index) {
     if (!index) return possibleGamestates[0];
     return possibleGamestates[index];
 }
 
+function findRightAnswer(index) {
+   return STORE[index].answers.find(el => el[1] === true)[0];
+}
 
-let i = 0;
 
 // create a function to inject values into our HTML based on i index in game
 // i > 0 but also < 6 is in game, 5 questions total, 1 - 5
-function createHTML() {
-  switch(defineGamestate(3)) {
+function createHTML(index) {
+  switch(defineGamestate(index)) {
 
+  // GAMESTATE SET TO PLAYING
   case 'playing':
-    // i === 0 on game start, so i > 0 is game in action
     return `<div class="question-box">
         <h1>Question ${STORE[i].id}/${STORE.length}</h1>
         <h3>${STORE[i].question}</h3>
@@ -109,6 +110,8 @@ function createHTML() {
         <button class="submit-button" type="submit">Submit</button>
         </form>
         </div>`;
+
+  // GAMESTATE INDEX SET TO BEGINNING, OR DEFAULT
   case 'toStart':
     return `<div class="question-box">
         <h1>Halo Quiz!</h1>
@@ -120,6 +123,8 @@ function createHTML() {
         <button>Start Quiz</button>
         </div>
         </div>`;
+
+  // GAMESTATE INDEX SET TO END
   case 'end':
     return `<div class="question-box">
         <h1>Restart !</h1>
@@ -131,6 +136,7 @@ function createHTML() {
         <button id="restart-game">Restart Quiz</button>
         </div>
         </div>`;
+  // GAMESTATE INDEX SET TO TRUE
   case 'true':
     return `<div class="question-box">
     <h1>Correct!</h1>
@@ -142,6 +148,8 @@ function createHTML() {
     <button id="next-question">Next Question</button>
     </div>
     </div>`;
+
+  // GAMESTATE INDEX SET TO FALSE
   case 'false':
     return`<div class="question-box">
     <h1>Incorrect!</h1>
@@ -174,18 +182,16 @@ function handleSubmitClick() {
     const wrongOrRight = $('input[name="answer"]:checked').val();
     console.log(answers);
     answers.push(wrongOrRight);
-    console.log(answers);
-  });
+    handleNextRender(wrongOrRight);
+});
 }
 
-
-// give us the value of selected answer
-// push value into answers array
-
+function handleNextRender(index) {
+    
+}
 // function for next question 
 // tie that function to an event listenever, eventually
 
-// array to store answers t/f
 // correct counter will filter for true and return length / array.length
 
 // reset game function
@@ -201,11 +207,11 @@ function renderHTML(htmlVar) {
 }
 
 function main() {
-  renderHTML(createHTML());
+  renderHTML(createHTML(1));
   handleSubmitClick();
 }
 
-main();
+main(); // loaded first
 
 // TO DO
 // correct counter
