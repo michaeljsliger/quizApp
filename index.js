@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 'use strict';
 const STORE = [
   {
@@ -225,7 +226,6 @@ function handleStartQuizClick() {
 
 // reset game function
 // i to 0
-// i counter off
 // gamestate to 'toStart'
 // answers array.length = 0;
 function handleResetButtonClick() {
