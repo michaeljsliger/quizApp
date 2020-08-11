@@ -7,7 +7,7 @@ const STORE = [
     answers: [
       ['November 15 2000', false],
       ['November 15, 2001', true],
-      ['November 15, 20002', false],
+      ['November 15, 2002', false],
       ['November 15, 2003', false]
     ]
   },
@@ -47,7 +47,7 @@ const STORE = [
   {
     id: 5,
     // How much is the Halo franchise worth? '$5 billion': true, '$3 billion': false, '$6 billion': false, '$7 Billion': false
-    question: 'Who is the main character?',
+    question: 'How much is the Halo franchise worth?',
     answers: [
       ['$3 Billion', false],
       ['$6 Billion', false],
@@ -147,7 +147,7 @@ function createHTML(index) {
     <div class="counter-box">${answers.filter(el => el === 'true').length}/${STORE.length} correctly answered</div>
 
     <div class="next-button-box">
-    <button id=${(i === STORE.length - 1) ? 'end-game' : 'next-question'}>${(i === STORE.length - 1) ? 'End Game' : 'Next Question'}</button>
+    <button class="css-next-button" id=${(i === STORE.length - 1) ? 'end-game' : 'next-question'}>${(i === STORE.length - 1) ? 'End Game' : 'Next Question'}</button>
     </div>
     </div>`;
 
@@ -161,7 +161,7 @@ function createHTML(index) {
     <div class="counter-box">${answers.filter(el => el === 'true').length}/${STORE.length} correctly answered</div>
 
     <div class="next-button-box">
-    <button id=${(i === STORE.length - 1) ? 'end-game' : 'next-question'}>${(i === STORE.length - 1) ? 'End Game' : 'Next Question'}</button>
+    <button class="css-next-button" id=${(i === STORE.length - 1) ? 'end-game' : 'next-question'}>${(i === STORE.length - 1) ? 'End Game' : 'Next Question'}</button>
     </div>
     </div>`;
   default: 
@@ -231,20 +231,20 @@ function handleResetButtonClick() {
   });
 }
 
-// load last page
+// load last page when clicked
 function handleEndGameButton() {
   $('main').on('click', '#end-game', function(e){
     renderHTML(createHTML(4));
   });
 }
 
-
+// render page, will come from createhtml
 function renderHTML(htmlVar) {
   $('main').html(htmlVar);
 }
 
 function main() {
-  renderHTML(createHTML(4)); // create first page
+  renderHTML(createHTML(0)); // create first page
   handleSubmitClick(); // event listeners
   handleStartQuizClick();
   handleNextButtonClick();

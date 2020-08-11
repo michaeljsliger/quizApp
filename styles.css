@@ -7,6 +7,7 @@
 
 body {
     background-color: #333333;
+    background-image: url(https://store-images.s-microsoft.com/image/apps.25987.14415742612829493.6fadca60-dee3-4f8d-8d0a-1a3ec8b3f5a4.722cfa9d-c39b-44a4-be37-34624b001975?mode=scale&q=90&h=1080&w=1920&background=%23FFFFFF);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -28,7 +29,7 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: rgba(47, 218, 195, 0.212);
+    background-color: rgba(58, 100, 138, 0.247);
     
 }
 
@@ -69,7 +70,7 @@ h1 {
 }
 
 .answers input[type="radio"]:checked + label {
-    background-color: #98fbff;
+    background-color: #3a629ede;
     border-color: #333333
 }
 
@@ -87,4 +88,34 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
+    
 }
+
+button {
+    font-family: Quantico, sans-serif, Arial;
+
+}
+
+.counter-box {
+    margin: 8px 0 12px;
+    color: #e3e3e3;
+    font-family: Quantico, sans-serif, Arial;
+    text-align: center;
+}
+
+@media all and (max-height: 600px) {
+    * {
+        font-size: 12px;
+    }
+
+    .answers label {
+        padding: 2px;
+    }
+
+    .answers input[type="radio"] {
+        
+        margin-bottom: 2px;
+        padding: 8px;
+    }
+}
+
