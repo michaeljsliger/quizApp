@@ -36,7 +36,7 @@ const STORE = [
   {
     id: 4,
     // How many games were developed by the Halo Franchise? 16: True, 5: false, 8: false, 9: false
-    question: 'Who is the main character?',
+    question: 'How many games were developed in the Halo Franchise?',
     answers: [
       [5, false],
       [8, false],
@@ -55,43 +55,157 @@ const STORE = [
       ['$5 Billion', true]
 
     ]
-  }
+  },
+]; // all of the questions and page information
 
+function findRightAnswer(index) {
+   return STORE[index].answers.find(el => el[1] === true)[0];
+}
+
+
+const answers = [];
+const possibleGamestates = [
+  'toStart',
+  'playing',
+  'true',
+  'false',
+  'end' 
 ];
 
-// create a function to inject values into our HTML
-const htmlTemplate = `<div class="question-box">
-<h1>Question ${STORE[0].id}/${STORE.length}</h1>
-<h3>${STORE[0].question}</h3>
-</div>
-<div>
-<form class="answers">
-    <input id="radio1" type="radio" name="answer" value="${STORE[0].answers[0][1]}" required>
-    <label for="radio1">${STORE[0].answers[0][0]}</label>
+function defineGamestate(index) {
+    if (!index) return possibleGamestates[0];
+    return possibleGamestates[index];
+}
 
-    <input id="radio2" type="radio" name="answer" value="${STORE[0].answers[1][1]}">
-    <label for="radio2">${STORE[0].answers[1][0]}</label>
 
-    <input id="radio3" type="radio" name="answer" value="${STORE[0].answers[2][1]}">
-    <label for="radio3">${STORE[0].answers[2][0]}</label>
+let i = 0;
+
+// create a function to inject values into our HTML based on i index in game
+// i > 0 but also < 6 is in game, 5 questions total, 1 - 5
+function createHTML() {
+  switch(defineGamestate(3)) {
+
+  case 'playing':
+    // i === 0 on game start, so i > 0 is game in action
+    return `<div class="question-box">
+        <h1>Question ${STORE[i].id}/${STORE.length}</h1>
+        <h3>${STORE[i].question}</h3>
+        </div>
+        <div>
+        <form class="answers">
+        <input id="radio1" type="radio" name="answer" value="${STORE[i].answers[0][1]}" required>
+        <label for="radio1">${STORE[i].answers[0][0]}</label>
+        
+        <input id="radio2" type="radio" name="answer" value="${STORE[i].answers[1][1]}">
+        <label for="radio2">${STORE[i].answers[1][0]}</label>
+        
+        <input id="radio3" type="radio" name="answer" value="${STORE[i].answers[2][1]}">
+        <label for="radio3">${STORE[i].answers[2][0]}</label>
+        
+        <input id="radio4" type="radio" name="answer" value="${STORE[i].answers[3][1]}">
+        <label for="radio4">${STORE[i].answers[3][0]}</label>
+        
     
-    <input id="radio4" type="radio" name="answer" value="${STORE[0].answers[3][1]}">
-    <label for="radio4">${STORE[0].answers[3][0]}</label>
-
+        <button class="submit-button" type="submit">Submit</button>
+        </form>
+        </div>`;
+  case 'toStart':
+    return `<div class="question-box">
+        <h1>Halo Quiz!</h1>
+        <h3></h3>
+        </div>
+        <div>
+        
+        <div class="next-button-box">
+        <button>Start Quiz</button>
+        </div>
+        </div>`;
+  case 'end':
+    return `<div class="question-box">
+        <h1>Restart !</h1>
+        <h3></h3>
+        </div>
+        <div>
+        
+        <div class="next-button-box">
+        <button id="restart-game">Restart Quiz</button>
+        </div>
+        </div>`;
+  case 'true':
+    return `<div class="question-box">
+    <h1>Correct!</h1>
+    <h3>Nice Job!</h3>
+    </div>
+    <div>
     
-    <button type="submit">Submit</button>
-</form>
-</div>`;
+    <div class="next-button-box">
+    <button id="next-question">Next Question</button>
+    </div>
+    </div>`;
+  case 'false':
+    return`<div class="question-box">
+    <h1>Incorrect!</h1>
+    <h3>The correct answer is [${findRightAnswer(i)}]</h3>
+    </div>
+    <div>
+    
+    <div class="next-button-box">
+    <button id="restart-game">Restart Quiz</button>
+    </div>
+    </div>`;
+  default: 
+    return `<div class="question-box">
+    <h1>Halo Quiz!</h1>
+    <h3></h3>
+    </div>
+    <div>
+    
+    <div class="next-button-box">
+    <button>Start Quiz</button>
+    </div>
+    </div>`;
+  }
+}
+    
+// handle submit
+function handleSubmitClick() {
+  $('main').on('submit', 'form.answers', function(e) {
+    e.preventDefault();
+    const wrongOrRight = $('input[name="answer"]:checked').val();
+    console.log(answers);
+    answers.push(wrongOrRight);
+    console.log(answers);
+  });
+}
 
+
+// give us the value of selected answer
+// push value into answers array
+
+// function for next question 
+// tie that function to an event listenever, eventually
+
+// array to store answers t/f
+// correct counter will filter for true and return length / array.length
+
+// reset game function
+// i to 0
+// i counter off
+// gamestate to 'toStart'
+// answers array.length = 0;
 
 
 
 function renderHTML(htmlVar) {
-$('main').html(htmlVar);
+  $('main').html(htmlVar);
 }
 
 function main() {
-    renderHTML(htmlTemplate);
+  renderHTML(createHTML());
+  handleSubmitClick();
 }
 
-main()
+main();
+
+// TO DO
+// correct counter
