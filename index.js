@@ -60,10 +60,10 @@ const STORE = [
 
 const answers = [];
 const possibleGamestates = [
-    'toStart',
-    'playing',
-    'true',
-    'false',
+  'toStart',
+  'playing',
+  'true',
+  'false',
   'end' 
 ];
 
@@ -72,17 +72,16 @@ let i = 0;
 
 
 function defineGamestate(index) {
-    if (!index) return possibleGamestates[0];
-    return possibleGamestates[index];
+  if (!index) return possibleGamestates[0];
+  return possibleGamestates[index];
 }
 
 function findRightAnswer(index) {
-   return STORE[index].answers.find(el => el[1] === true)[0];
+  return STORE[index].answers.find(el => el[1] === true)[0];
 }
 
 
 // create a function to inject values into our HTML based on i index in game
-// i > 0 but also < 6 is in game, 5 questions total, 1 - 5
 function createHTML(index) {
   switch(defineGamestate(index)) {
 
@@ -109,6 +108,7 @@ function createHTML(index) {
     
         <button class="submit-button" type="submit">Submit</button>
         </form>
+        <div class="counter-box">${answers.filter(el => el === 'true').length}/${STORE.length} correctly answered</div>
         </div>`;
 
   // GAMESTATE INDEX SET TO BEGINNING, OR DEFAULT
@@ -120,18 +120,19 @@ function createHTML(index) {
         <div>
         
         <div class="next-button-box">
-        <button>Start Quiz</button>
+        <button id='start-quiz'>Start Quiz</button>
         </div>
         </div>`;
 
   // GAMESTATE INDEX SET TO END
   case 'end':
     return `<div class="question-box">
-        <h1>Restart !</h1>
+        <h1>Results!</h1>
         <h3></h3>
         </div>
         <div>
         
+        <div class="counter-box">${answers.filter(el => el === 'true').length}/${STORE.length} correctly answered</div>
         <div class="next-button-box">
         <button id="restart-game">Restart Quiz</button>
         </div>
@@ -143,9 +144,10 @@ function createHTML(index) {
     <h3>Nice Job!</h3>
     </div>
     <div>
-    
+    <div class="counter-box">${answers.filter(el => el === 'true').length}/${STORE.length} correctly answered</div>
+
     <div class="next-button-box">
-    <button id="next-question">Next Question</button>
+    <button id=${(i === STORE.length - 1) ? 'end-game' : 'next-question'}>${(i === STORE.length - 1) ? 'End Game' : 'Next Question'}</button>
     </div>
     </div>`;
 
@@ -156,9 +158,10 @@ function createHTML(index) {
     <h3>The correct answer is [${findRightAnswer(i)}]</h3>
     </div>
     <div>
-    
+    <div class="counter-box">${answers.filter(el => el === 'true').length}/${STORE.length} correctly answered</div>
+
     <div class="next-button-box">
-    <button id="restart-game">Restart Quiz</button>
+    <button id=${(i === STORE.length - 1) ? 'end-game' : 'next-question'}>${(i === STORE.length - 1) ? 'End Game' : 'Next Question'}</button>
     </div>
     </div>`;
   default: 
@@ -169,7 +172,7 @@ function createHTML(index) {
     <div>
     
     <div class="next-button-box">
-    <button>Start Quiz</button>
+    <button id='start-quiz'>Start Quiz</button>
     </div>
     </div>`;
   }
@@ -180,18 +183,38 @@ function handleSubmitClick() {
   $('main').on('submit', 'form.answers', function(e) {
     e.preventDefault();
     const wrongOrRight = $('input[name="answer"]:checked').val();
-    console.log(answers);
     answers.push(wrongOrRight);
-    handleNextRender(wrongOrRight);
-});
+    handleNextRenderFromSubmit(wrongOrRight);
+  });
 }
 
-function handleNextRender(index) {
-    
+// next for answer submits
+function handleNextRenderFromSubmit(input) {
+// true if correct, false if incorrect
+  switch(input) {
+  case 'true':
+    renderHTML(createHTML(2));
+    break;
+  case 'false':
+    renderHTML(createHTML(3));
+    break;
+  }
 }
-// function for next question 
-// tie that function to an event listenever, eventually
 
+// function for next question button
+function handleNextButtonClick() {
+  $('main').on('click', '#next-question', function(e) {
+    i++;
+    renderHTML(createHTML(1));
+  });
+}
+
+// function for starting the quiz
+function handleStartQuizClick() {
+  $('main').on('click', '#start-quiz', function(e){
+    renderHTML(createHTML(1));
+  });
+}
 // correct counter will filter for true and return length / array.length
 
 // reset game function
@@ -199,7 +222,21 @@ function handleNextRender(index) {
 // i counter off
 // gamestate to 'toStart'
 // answers array.length = 0;
+function handleResetButtonClick() {
+  $('main').on('click', '#restart-game', function(e) {
+    i = 0;
+    // i counter?
+    answers.length = 0;
+    renderHTML(createHTML(0)); // create first page
+  });
+}
 
+// load last page
+function handleEndGameButton() {
+  $('main').on('click', '#end-game', function(e){
+    renderHTML(createHTML(4));
+  });
+}
 
 
 function renderHTML(htmlVar) {
@@ -207,8 +244,12 @@ function renderHTML(htmlVar) {
 }
 
 function main() {
-  renderHTML(createHTML(1));
-  handleSubmitClick();
+  renderHTML(createHTML(4)); // create first page
+  handleSubmitClick(); // event listeners
+  handleStartQuizClick();
+  handleNextButtonClick();
+  handleResetButtonClick();
+  handleEndGameButton();
 }
 
 main(); // loaded first
