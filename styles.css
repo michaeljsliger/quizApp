@@ -10,12 +10,17 @@ body {
     background-image: url(images/masterchief.png), url(https://store-images.s-microsoft.com/image/apps.25987.14415742612829493.6fadca60-dee3-4f8d-8d0a-1a3ec8b3f5a4.722cfa9d-c39b-44a4-be37-34624b001975?mode=scale&q=90&h=1080&w=1920&background=%23FFFFFF);
     background-size: 40%, cover;
     background-repeat: no-repeat, no-repeat;
-    background-position: left bottom, center;
+    background-position: bottom right, center;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
-    
+    transition-property: background-position;
+    transition-duration: 1s;
+}
+
+body:hover{
+    background-position: bottom left, center;
 }
 
 .styling-box {
@@ -35,7 +40,6 @@ main {
     justify-content: center;
     align-items: center;
     background-color: rgba(58, 99, 138, 0.37);
-    
 }
 
 /* added text shadow */
@@ -48,8 +52,6 @@ h1, h3 {
 
 h1 {
     margin-bottom: 8px;
-    
-    
 }
 
 .answers {
@@ -74,11 +76,13 @@ h1 {
     font-size: 16px;
     border: 2px solid #444444b6;
     border-radius: 4px;
+    transition: background .5s, transform .5s;
 }
 
 .answers input[type="radio"]:checked + label {
     background-color: #3d588383;
     border-color: #636363af;
+    transform: scale(1.1,1.1)
    
 }
 
@@ -133,17 +137,12 @@ button {
 }
 
 @media all and (min-width: 800px){
-
- 
     
     main{ 
         flex-direction: row;
         justify-content: space-evenly;
          
     }
-   
-
-   
 
 
 }
