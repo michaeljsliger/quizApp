@@ -4,13 +4,18 @@
     margin: 0;
     padding: 0;
 }
-
+/* added master chief updated the background image*/
 body {
-    background-color: #333333;
-    background-image: url(https://store-images.s-microsoft.com/image/apps.25987.14415742612829493.6fadca60-dee3-4f8d-8d0a-1a3ec8b3f5a4.722cfa9d-c39b-44a4-be37-34624b001975?mode=scale&q=90&h=1080&w=1920&background=%23FFFFFF);
+    background-color: #102036;
+    background-image: url(images/masterchief.png), url(https://store-images.s-microsoft.com/image/apps.25987.14415742612829493.6fadca60-dee3-4f8d-8d0a-1a3ec8b3f5a4.722cfa9d-c39b-44a4-be37-34624b001975?mode=scale&q=90&h=1080&w=1920&background=%23FFFFFF);
+    background-size: 40%, cover;
+    background-repeat: no-repeat, no-repeat;
+    background-position: left bottom, center;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    
 }
 
 .styling-box {
@@ -18,7 +23,7 @@ body {
     width: 100vw;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
 }
 
 main {
@@ -29,19 +34,22 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: rgba(58, 100, 138, 0.247);
+    background-color: rgba(58, 99, 138, 0.37);
     
 }
 
-
+/* added text shadow */
 h1, h3 {
     text-align: center;
     font-family: Quantico, sans-serif, Arial;
     color: white;
+    text-shadow: 1px 2px 4px rgba(255, 255, 255, 0.445);
 }
 
 h1 {
     margin-bottom: 8px;
+    
+    
 }
 
 .answers {
@@ -59,23 +67,23 @@ h1 {
 }
 
 .answers label {
-    background-color: gray;
+    background-color: rgba(95, 95, 95, 0.363);
     padding: 15px;
     font-family: Quantico, sans-serif, Arial;
     color: white;
-
     font-size: 16px;
-    border: 2px solid #444444;
+    border: 2px solid #444444b6;
     border-radius: 4px;
 }
 
 .answers input[type="radio"]:checked + label {
-    background-color: #3a629ede;
-    border-color: #333333
+    background-color: #3d588383;
+    border-color: #636363af;
+   
 }
 
 .answers input[type="radio"]:focus + label {
-    border: 2px dashed #444;
+    border: 2px solid #636363af;
 }
 
 .answers button {
@@ -89,6 +97,10 @@ h1 {
     align-items: center;
     justify-content: center;
     
+}
+
+.submit{
+    align-items: center;
 }
 
 button {
@@ -117,5 +129,22 @@ button {
         margin-bottom: 2px;
         padding: 8px;
     }
+
+}
+
+@media all and (min-width: 800px){
+
+ 
+    
+    main{ 
+        flex-direction: row;
+        justify-content: space-evenly;
+         
+    }
+   
+
+   
+
+
 }
 

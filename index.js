@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 'use strict';
+// array of questions with id, question and different answer values with true or false values
 const STORE = [
   {
     id: 1,
@@ -59,10 +60,10 @@ const STORE = [
   },
 ]; // all of the questions and page information
 
-// store answers from user
+// store answers from user//and used to display correct answers
 const answers = [];
 
-// game set initialized with render(createHTML(defineGameState(0)))
+// game set initialized with render(createHTML(defineGameState(0)))//
 const possibleGamestates = [
   'toStart',
   'playing',
@@ -112,7 +113,8 @@ function createHTML(index) {
         <input id="radio4" type="radio" name="answer" value="${STORE[i].answers[3][1]}">
         <label for="radio4">${STORE[i].answers[3][0]}</label>
         
-    
+        
+        
         <button class="submit-button" type="submit">Submit</button>
         </form>
         <div class="counter-box">${answers.filter(el => el === 'true').length}/${STORE.length} correctly answered</div>
@@ -171,6 +173,8 @@ function createHTML(index) {
     <button class="css-next-button" id=${(i === STORE.length - 1) ? 'end-game' : 'next-question'}>${(i === STORE.length - 1) ? 'End Game' : 'Next Question'}</button>
     </div>
     </div>`;
+
+    
   default: 
     return `<div class="question-box">
     <h1>Halo Quiz!</h1>
